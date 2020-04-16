@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Application {
+public class Application implements Runnable{
 	private CourseCatalogue cat;
 	private Student student;
 	PrintWriter socketOut;
@@ -44,7 +44,7 @@ public class Application {
 				removeCourse(courseName, courseId);
 				break;
 			case 4:
-				socketOut.println(cat + "\0");
+				displayCat();
 				break;
 			case 5:
 				displayStudentCourses();
@@ -56,6 +56,10 @@ public class Application {
 		}
 	}
 	
+	public void displayCat() {
+		socketOut.println(cat + "\0");
+	}
+	
 	public void displayStudentCourses() {
 		String s = "Here are " + student.getStudentName() + "'s current Courses: \n";
 		for(Registration reg : student.getStudentRegList()) {
@@ -65,7 +69,7 @@ public class Application {
 		socketOut.println(s);
 	}
 	
-	public void removeCourse(String courseName, int courseId) {
+	public synchronized void removeCourse(String courseName, int courseId) {
 		Course theCourse = cat.searchCat(courseName, courseId);
 		if(theCourse == null)
 			socketOut.println("Course was not found\0");
@@ -84,16 +88,8 @@ public class Application {
 		else 
 			socketOut.println("Course was not found\0");
 	}
-	
-//	public void registerStudentToCourse() {
-//		int studentId = requestStudentId();
-//		String courseName = requestCourseName();
-//		int courseId = requestCourseId();
-//		int courseSection = requestSection();
-//		registerStudent(studentId, courseName, courseId, courseSection);
-//	}
 
-	private void registerStudent(String courseName, int courseId, int courseSection) {
+	private synchronized void registerStudent(String courseName, int courseId, int courseSection) {
 		Course course = cat.searchCat(courseName, courseId);
 		if(course == null) {
 			socketOut.println("Course was not found, Cannot Register\0");
@@ -110,8 +106,13 @@ public class Application {
 			}
 		}
 	}
-
-	/*public void run() {
-		menu();
-	}*/
+	
+	@Override
+	public void run() {
+		try {
+			menu();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

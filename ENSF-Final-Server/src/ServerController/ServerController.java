@@ -18,12 +18,15 @@ import ServerModel.Student;
 public class ServerController {
 
 	ServerSocket serverSocket;
+	ExecutorService pool;
 	ArrayList<Student> studentList;
 	CourseCatalogue cat;
+	
 	
 	public ServerController(int portNum, ArrayList<Student> studentList, CourseCatalogue cat) {
 		try {
 			serverSocket = new ServerSocket(portNum);
+			pool = Executors.newCachedThreadPool();
 			this.studentList = studentList;
 			this.cat = cat;
 			System.out.println("Server is Running...");
@@ -44,11 +47,13 @@ public class ServerController {
 				if(theStudent != null) {
 					socketOut.println("Student found with id: " + id);
 					 app = new Application(theStudent, cat, socketOut, socketIn);
-				} else 
+				} else {
 					System.exit(1);
-				app.menu();
+				}
+				pool.execute(app);
 			} catch (IOException e) {
-				e.printStackTrace();
+				pool.shutdown();
+				System.out.println("Server is shutting down...");
 			}
 		}
 	}
