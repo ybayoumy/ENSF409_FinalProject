@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerModel;
 
 import java.util.ArrayList;

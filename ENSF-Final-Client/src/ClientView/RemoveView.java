@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ClientView;
 
 import java.awt.event.ActionListener;

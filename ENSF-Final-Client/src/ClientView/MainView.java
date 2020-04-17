@@ -1,5 +1,7 @@
 package ClientView;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
@@ -41,7 +43,7 @@ public class MainView extends JFrame{
 	public MainView() {
 		super("Main Window");
 		
-		//setSize(750, 500);
+		setSize(750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Closes the java application when the user exits
 		
 		textArea.setEditable(false);
@@ -61,6 +63,10 @@ public class MainView extends JFrame{
 		add("North", northPanel);
 		add("Center", centerPanel);
 		add("South", southPanel);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2); //Sets the location of the frame to the center of the screen
+		
 		pack();
 	}
 	/**
@@ -114,5 +120,6 @@ public class MainView extends JFrame{
 	 */
 	public void setTextArea(String content) {
 		textArea.setText(content);
+		textArea.setCaretPosition(0); // When displaying to the text area, starts the view at the top rather than bottom
 	}
 }

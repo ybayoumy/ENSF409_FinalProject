@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerModel;
 
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ private ArrayList <Course> courseList;
 	public String toString () {
 		String st = "All courses in the catalogue: \n";
 		for (Course c : courseList) {
-			st += c;  
+			st += c;  //This line invokes the toString() method of Course
 			st += "\n";
 		}
 		return st;

@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerController;
 
 import java.io.BufferedReader;
@@ -21,7 +24,6 @@ public class ServerController {
 	ExecutorService pool;
 	ArrayList<Student> studentList;
 	CourseCatalogue cat;
-	
 	
 	public ServerController(int portNum, ArrayList<Student> studentList, CourseCatalogue cat) {
 		try {
@@ -47,14 +49,17 @@ public class ServerController {
 				if(theStudent != null) {
 					socketOut.println("Student found with id: " + id);
 					 app = new Application(theStudent, cat, socketOut, socketIn);
-				} else {
+				} else 
 					System.exit(1);
-				}
 				pool.execute(app);
-			} catch (IOException e) {
+			} catch (NullPointerException e) {
+				
+			}catch (NumberFormatException e) {
+				
+			}catch (IOException e) {
+				e.printStackTrace();
 				pool.shutdown();
-				System.out.println("Server is shutting down...");
-			}
+			} 
 		}
 	}
 	

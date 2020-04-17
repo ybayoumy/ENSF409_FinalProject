@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerModel;
 
 public class Registration {

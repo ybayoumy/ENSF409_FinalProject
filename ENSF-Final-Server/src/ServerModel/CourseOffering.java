@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerModel;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ public class CourseOffering {
 	public String toString () {
 		String st = "\n";
 		st += getTheCourse().getCourseName() + " " + getTheCourse().getCourseNum() + "\n";
-		st += "Section Num: " + getSecNum() + ", section cap: "+ getSecCap() +"\n";
+		st += "Section Num: " + getSecNum() + ", section cap: "+ offeringRegList.size() + "/" + getSecCap() +"\n";
 		//We also want to print the names of all students in the section
 		return st;
 	}

@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ServerModel;
 
 import java.io.BufferedReader;
@@ -17,7 +20,7 @@ public class Application implements Runnable{
 		this.socketOut = socketOut;
 	}
 	
-	public void menu() throws IOException {
+	public void menu() throws IOException, NullPointerException {
 		int input;
 		String courseName;
 		int courseId;
@@ -44,7 +47,7 @@ public class Application implements Runnable{
 				removeCourse(courseName, courseId);
 				break;
 			case 4:
-				displayCat();
+				socketOut.println(cat + "\0");
 				break;
 			case 5:
 				displayStudentCourses();
@@ -56,11 +59,7 @@ public class Application implements Runnable{
 		}
 	}
 	
-	public void displayCat() {
-		socketOut.println(cat + "\0");
-	}
-	
-	public void displayStudentCourses() {
+	public synchronized void displayStudentCourses() {
 		String s = "Here are " + student.getStudentName() + "'s current Courses: \n";
 		for(Registration reg : student.getStudentRegList()) {
 			s += reg.getTheOffering() + "\n";
@@ -81,13 +80,21 @@ public class Application implements Runnable{
 		}
 	}
 	
-	public void searchCatalogue(String name, int id) {
+	public synchronized void searchCatalogue(String name, int id) {
 		Course result = cat.searchCat(name, id);
 		if(result != null)
 			socketOut.println("Course was found, here it is...\n" + result + "\0");
 		else 
 			socketOut.println("Course was not found\0");
 	}
+	
+//	public void registerStudentToCourse() {
+//		int studentId = requestStudentId();
+//		String courseName = requestCourseName();
+//		int courseId = requestCourseId();
+//		int courseSection = requestSection();
+//		registerStudent(studentId, courseName, courseId, courseSection);
+//	}
 
 	private synchronized void registerStudent(String courseName, int courseId, int courseSection) {
 		Course course = cat.searchCat(courseName, courseId);
@@ -111,8 +118,14 @@ public class Application implements Runnable{
 	public void run() {
 		try {
 			menu();
+		} catch (NullPointerException e) {
+			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
+
+	/*public void run() {
+		menu();
+	}*/
 }

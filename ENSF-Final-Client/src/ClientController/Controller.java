@@ -1,3 +1,6 @@
+/**
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 package ClientController;
 
 import java.awt.event.ActionEvent;
