@@ -8,31 +8,30 @@ public class Registration {
 	private CourseOffering theOffering;
 	private char grade;
 	
-	public void completeRegistration (Student st, CourseOffering of) {
+	public String completeRegistration (Student st, CourseOffering of) {
 		if(of == null)
-			System.err.println("This Section does not Exist");
+			return "This Section does not Exist";
 		else if (of.isFull())
-			System.err.println("This Section is Full");
+			return "This Section is Full";
 		else {
 			theStudent = st;
 			theOffering = of;
-			if(checkStudentEligibility()) {
+			if(!checkCourseAmount()) {
+				return "Registered in 6 Classes. Cannot Register in any more.";
+			} else if (!checkPreReqs()) {
+				return "PreReq/AntiReq Conflict";
+			} else if(!checkIfCurrentlyTaking()) {
+				return "Already currently registered in this course";
+			} else {
 				addRegistration();
-				System.out.println("Succefully Registered into " + theOffering.getTheCourse().getCourseName() + 
-						" " + theOffering.getTheCourse().getCourseNum());
+				return "Succefully Registered into " + theOffering.getTheCourse().getCourseName() + 
+						" " + theOffering.getTheCourse().getCourseNum();
 			}
-			else 
-				System.err.println("Student is not eligible to register in this course");
 		}
 	}
-	
-	private boolean checkStudentEligibility() {
-		return checkCourseAmount() && checkPreReqs() && checkIfCurrentlyTaking();
-	}
-	
+
 	private boolean checkCourseAmount() {
 		if(theStudent.getCourseAmount() >= 6) {
-			System.err.println("Student is Registered in 6 Classes. Cannot Register in any more.");
 			return false;
 		}
 		return true;
@@ -41,7 +40,6 @@ public class Registration {
 	private boolean checkIfCurrentlyTaking() {
 		for(Registration reg : theStudent.getStudentRegList()) {
 			if(reg.getTheOffering().getTheCourse().equals(theOffering.getTheCourse())) {
-				System.err.println("Student is already registered in this course");
 				return false;
 			}
 		}
@@ -51,12 +49,10 @@ public class Registration {
 	private boolean checkPreReqs() {
 		Course theCourse = theOffering.getTheCourse();
 		if(theStudent.getPastCourses().contains(theCourse)) {
-			System.err.println("Student has already taken this class");
 			return false;
 		}
 		for(Course c : theCourse.getPreReq()) {
 			if(!theStudent.getPastCourses().contains(c)) {
-				System.err.println("Student does not have the required prerequisite courses");
 				return false;
 			}
 		}

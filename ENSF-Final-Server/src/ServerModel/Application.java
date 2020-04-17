@@ -87,14 +87,6 @@ public class Application implements Runnable{
 		else 
 			socketOut.println("Course was not found\0");
 	}
-	
-//	public void registerStudentToCourse() {
-//		int studentId = requestStudentId();
-//		String courseName = requestCourseName();
-//		int courseId = requestCourseId();
-//		int courseSection = requestSection();
-//		registerStudent(studentId, courseName, courseId, courseSection);
-//	}
 
 	private synchronized void registerStudent(String courseName, int courseId, int courseSection) {
 		Course course = cat.searchCat(courseName, courseId);
@@ -108,8 +100,8 @@ public class Application implements Runnable{
 			} else if (offering.isFull()) {
 				socketOut.println("Offering is Full, Cannot Register\0");
 			} else {
-				reg.completeRegistration(student, offering);
-				socketOut.println("Registered in " + courseName + " " + courseId + "\0");
+				String res = reg.completeRegistration(student, offering);
+				socketOut.println(res + "\0");
 			}
 		}
 	}

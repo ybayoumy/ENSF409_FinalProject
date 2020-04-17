@@ -22,8 +22,6 @@ public class Student {
 	public boolean removeRegistration(Course course){
 		for(Registration reg : studentRegList) {
 			if(reg.getTheOffering().getTheCourse().equals(course)) {
-				System.out.println("Succefully dropped " + reg.getTheOffering().getTheCourse().getCourseName() + 
-						" " + reg.getTheOffering().getTheCourse().getCourseNum());
 				reg.getTheOffering().removeRegistration(reg);
 				studentRegList.remove(reg);
 				return true;

@@ -12,6 +12,7 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
+import ClientView.LoginView;
 import ClientView.MainView;
 import ClientView.RegisterView;
 import ClientView.RemoveView;
@@ -19,6 +20,7 @@ import ClientView.SearchView;
 
 public class Controller {
 	private MainView view;
+	private LoginView loginView;
 	private Socket clientSocket;
 	private PrintWriter socketOut;
 	private BufferedReader socketIn;
@@ -139,7 +141,6 @@ public class Controller {
 				s += socketIn.readLine() + "\n";
 				if(s.contains("\0")) {
 					s = s.replace("\0", "\n");
-					//System.out.println(s);
 					return s;
 				}
 			} catch (IOException e) {
@@ -157,7 +158,32 @@ public class Controller {
 		view.displayErrorMessage(s);
 	}
 	
+	private void login() {
+		String id = loginView.getId();
+		String pass = loginView.getPassword();
+		if(id.isEmpty() || pass.isEmpty()) {
+			displayErrorMessage("Make sure all fields are full");
+		} else {
+			socketOut.println(id + "," + pass);
+			String s = readFromServer();
+			displayMessage(s);
+			if(!s.contains("not")) {
+				view.setVisible(true);
+			} else {
+				System.exit(1);
+			}
+			loginView.dispose();
+		}
+	}
+	
 	public void communicate() {
+		loginView = new LoginView();
+		loginView.setVisible(true);
+		
+		loginView.addLoginListener((ActionEvent e) ->{
+			login();
+		});
+		
 		view.addRegisterListener((ActionEvent e) ->{
 			register();
 		});
@@ -174,14 +200,6 @@ public class Controller {
 		view.addDisplayStudentListener((ActionEvent e) ->{
 			displayStudent();
 		});
-		
-		socketOut.println(JOptionPane.showInputDialog("Please enter your id: "));
-		
-		try {
-			JOptionPane.showMessageDialog(view, socketIn.readLine());
-		}catch (IOException e1) {
-			e1.printStackTrace();
-		}
 	}
 	
 	public static void main(String[] args) {
@@ -189,7 +207,7 @@ public class Controller {
 		try {
 			Controller control = new Controller(view, "localhost", 9090);
 			control.communicate();
-			view.setVisible(true);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

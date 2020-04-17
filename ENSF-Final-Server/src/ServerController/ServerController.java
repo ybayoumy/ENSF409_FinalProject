@@ -43,15 +43,20 @@ public class ServerController {
 				Socket socket = serverSocket.accept();
 				BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-				int id = Integer.parseInt(socketIn.readLine());
+				
+				String request = socketIn.readLine();
+				String[] args = request.split(",");
+				int id = Integer.parseInt(args[0]);
+				String pass = args[1];
 				Student theStudent = searchStudents(id);
 				Application app = null;
 				if(theStudent != null) {
-					socketOut.println("Student found with id: " + id);
+					 socketOut.println("Student found with id: " + id + "\0");
 					 app = new Application(theStudent, cat, socketOut, socketIn);
-				} else 
-					System.exit(1);
-				pool.execute(app);
+					 pool.execute(app);
+				} else {
+					socketOut.println("Student not found with id: " + id + "\0");
+				}
 			} catch (NullPointerException e) {
 				
 			}catch (NumberFormatException e) {
