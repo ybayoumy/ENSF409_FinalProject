@@ -6,28 +6,29 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 /**
- * The main class that handles the GUI components of the program.
+ * The main view class that handles the GUI components of the program.
  * @author Thomas Kahessay & Yassin Bayoumy
- * @version 1.0
- * @since April 3, 2020
  */
 public class MainView extends JFrame{
 	/**
-	 * The insert button for the main frame.
+	 * The search button for the main frame.
 	 */
 	private JButton searchButton = new JButton("Search Courses");
 	/**
-	 * The find button for the main frame.
+	 * The register button for the main frame.
 	 */
 	private JButton registerButton = new JButton("Enroll in a Course");
 	/**
-	 * The browse button for the main frame.
+	 * The remove button for the main frame.
 	 */
 	private JButton removeButton = new JButton("Drop a Course");
 	/**
-	 * The create button for the main frame.
+	 * The display catalogue button for the main frame.
 	 */
 	private JButton displayCatButton = new JButton("Display Course Catalougue");
+	/**
+	 * The display student courses button for the main frame.
+	 */
 	private JButton displayStudentButton = new JButton("Display Student Courses");
 	/**
 	 * The title of the main frame.
@@ -70,33 +71,37 @@ public class MainView extends JFrame{
 		pack();
 	}
 	/**
-	 * Adds an action listener for the insert button.
-	 * @param listener the action listener
+	 * Adds an action listener for the search button.
+	 * @param listener the search listener
 	 */
 	public void addSearchListener(ActionListener listener) {
 		searchButton.addActionListener(listener);
 	}
 	/**
-	 * Adds an action listener for the find button.
-	 * @param listener the action listener
+	 * Adds an action listener for the register button.
+	 * @param listener the register listener
 	 */
 	public void addRegisterListener(ActionListener listener) {
 		registerButton.addActionListener(listener);
 	}
 	/**
-	 * Adds an action listener for the browse button.
-	 * @param listener the action listener
+	 * Adds an action listener for the remove button.
+	 * @param listener the remove listener
 	 */
 	public void addRemoveListener(ActionListener listener) {
 		removeButton.addActionListener(listener);
 	}
 	/**
-	 * Adds an action listener for the create button.
-	 * @param listener the action listener
+	 * Adds an action listener for the display catalogue button.
+	 * @param listener the display listener
 	 */
 	public void addDisplayCatListener(ActionListener listener) {
 		displayCatButton.addActionListener(listener);
 	}
+	/**
+	 * Adds an action listener for the display student courses button.
+	 * @param listener the display student courses listener
+	 */
 	public void addDisplayStudentListener(ActionListener listener) {
 		displayStudentButton.addActionListener(listener);
 	}

@@ -1,8 +1,4 @@
-/**
- * @author Yassin Bayoumy & Thomas Kahessay
- */
 package ServerController;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,15 +14,39 @@ import ServerModel.Application;
 import ServerModel.CourseCatalogue;
 import ServerModel.SQLDBManager;
 import ServerModel.Student;
-
+/**
+ * The server controller which connects to the client controller to pass information 
+ * between the server and client.
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 public class ServerController {
-
+	/**
+	 * The server socket which connects to the client.
+	 */
 	ServerSocket serverSocket;
+	/**
+	 * The thread pool allowing for multiple users on the application.
+	 */
 	ExecutorService pool;
+	/**
+	 * The list of all the students. 
+	 */
 	ArrayList<Student> studentList;
+	/**
+	 * The course catalogue.
+	 */
 	CourseCatalogue cat;
+	/**
+	 * The database containing all the students, courses and registrations.
+	 */
 	SQLDBManager db;
-	
+	/**
+	 * Constructs a new server controller.
+	 * @param portNum the port number
+	 * @param studentList the list of all students 
+	 * @param cat the course catalogue
+	 * @param db the database
+	 */
 	public ServerController(int portNum, ArrayList<Student> studentList, CourseCatalogue cat, SQLDBManager db) {
 		try {
 			serverSocket = new ServerSocket(portNum);
@@ -36,10 +56,13 @@ public class ServerController {
 			this.db = db;
 			System.out.println("Server is Running...");
 		} catch (IOException e) {
+			System.out.println("Error in creating server controller.");
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * Communicates to the client by passing information through to it using sockets.
+	 */
 	public void communicate() {
 		while(true) {
 			try {
@@ -61,18 +84,24 @@ public class ServerController {
 					socketOut.println("Wrong Id or Password\0");
 				}
 			} catch (NullPointerException e) {
-				
+				System.out.println("Null Pointer Error in server communicate.");
 			}catch (NumberFormatException e) {
-				
+				System.out.println("Number Format Exception in server communicate.");
 			}catch (IOException e) {
+				System.out.println("IOException in server communicate.");
 				e.printStackTrace();
 				pool.shutdown();
 			} catch (SQLException e) {
+				System.out.println("SQL Exception in server communicate.");
 				e.printStackTrace();
 			} 
 		}
 	}
-	
+	/**
+	 * Searches the student list by id.
+	 * @param id the id of the student
+	 * @return the student if found otherwise null
+	 */
 	private Student searchStudents(int id) {
 		for(Student s : studentList) {
 			if(s.getStudentId() == id) {

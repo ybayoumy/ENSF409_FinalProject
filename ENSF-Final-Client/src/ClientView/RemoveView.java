@@ -1,8 +1,7 @@
-/**
- * @author Yassin Bayoumy & Thomas Kahessay
- */
 package ClientView;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -10,18 +9,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/**
+ * The Remove window that allows a student to enter the information for the 
+ * course they want to drop.
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 public class RemoveView extends JFrame{
 	/**
-	 * The title of the insert frame.
+	 * The title of the remove frame.
 	 */
 	JLabel title = new JLabel("Remove a Course");
 	/**
-	 * The text field for the user to enter the id.
+	 * The text field for the user to enter the course id.
 	 */
 	JTextField courseIdField = new JTextField(5);
 	/**
-	 * The text field for the user to enter the major.
+	 * The text field for the user to enter the course name.
 	 */
 	JTextField courseNameField = new JTextField(4);
 	/**
@@ -29,11 +32,11 @@ public class RemoveView extends JFrame{
 	 */
 	JButton returnButton = new JButton("Cancel");
 	/**
-	 * The insert button.
+	 * The remove button.
 	 */
 	JButton removeButton = new JButton("Remove");
 	/**
-	 * Constructs the insert frame.
+	 * Constructs the remove frame.
 	 */
 	public RemoveView(){
 		super("Remove a Course");
@@ -52,14 +55,15 @@ public class RemoveView extends JFrame{
 		centerPanel.add(new JLabel("Course Id"));
 		centerPanel.add(courseIdField);
 		
-		//centerPanel.add(Box.createHorizontalStrut(150));
-		
 		southPanel.add(removeButton);
 		southPanel.add(returnButton);
 		
 		add("North", northPanel);
 		add("Center", centerPanel);
 		add("South", southPanel);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	/**
 	 * Adds a listener for the return button.
@@ -69,8 +73,8 @@ public class RemoveView extends JFrame{
 		returnButton.addActionListener(listener);
 	}
 	/**
-	 * Adds a listener for the search button.
-	 * @param listener
+	 * Adds a listener for the remove button.
+	 * @param listener the listener
 	 */
 	public void addRemoveListener(ActionListener listener) {
 		removeButton.addActionListener(listener);

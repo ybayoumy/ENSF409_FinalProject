@@ -1,5 +1,7 @@
 package ClientView;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
@@ -9,22 +11,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 /**
- * The main class that handles the operations of the insert frame.
+ * The main class that handles the operations of the search frame.
  * @author Thomas Kahessay & Yassin Bayoumy
  * @version 1.0
  * @since April 3, 2020
  */
 public class SearchView extends JFrame{
 	/**
-	 * The title of the insert frame.
+	 * The title of the search frame.
 	 */
 	JLabel title = new JLabel("Search for a Course");
 	/**
-	 * The text field for the user to enter the id.
+	 * The text field for the user to enter the course id.
 	 */
 	JTextField courseIdField = new JTextField(5);
 	/**
-	 * The text field for the user to enter the major.
+	 * The text field for the user to enter the course name.
 	 */
 	JTextField courseNameField = new JTextField(4);
 	/**
@@ -32,11 +34,11 @@ public class SearchView extends JFrame{
 	 */
 	JButton returnButton = new JButton("Cancel");
 	/**
-	 * The insert button.
+	 * The search button.
 	 */
 	JButton searchButton = new JButton("Search");
 	/**
-	 * Constructs the insert frame.
+	 * Constructs the search frame.
 	 */
 	public SearchView(){
 		super("Search For Course");
@@ -54,15 +56,16 @@ public class SearchView extends JFrame{
 		
 		centerPanel.add(new JLabel("Course Id"));
 		centerPanel.add(courseIdField);
-		
-		//centerPanel.add(Box.createHorizontalStrut(150));
-		
+
 		southPanel.add(searchButton);
 		southPanel.add(returnButton);
 		
 		add("North", northPanel);
 		add("Center", centerPanel);
 		add("South", southPanel);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	/**
 	 * Adds a listener for the return button.
@@ -73,7 +76,7 @@ public class SearchView extends JFrame{
 	}
 	/**
 	 * Adds a listener for the search button.
-	 * @param listener
+	 * @param listener the listener
 	 */
 	public void addSearchListener(ActionListener listener) {
 		searchButton.addActionListener(listener);

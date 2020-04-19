@@ -1,5 +1,7 @@
 package ClientView;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -7,10 +9,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/**
+ * The login window for the user to enter their credentials in order to 
+ * login to the application.
+ * @author Yassin Bayoumy & Thomas Kahessay
+ */
 public class LoginView extends JFrame{
 	/**
-	 * The title of the insert frame.
+	 * The title of the login frame.
 	 */
 	JLabel title = new JLabel("Student Login");
 	/**
@@ -18,20 +24,21 @@ public class LoginView extends JFrame{
 	 */
 	JTextField idField = new JTextField(5);
 	/**
-	 * The text field for the user to enter the major.
+	 * The text field for the user to enter the password.
 	 */
 	JTextField passwordField = new JTextField(4);
 	/**
-	 * The insert button.
+	 * The login button.
 	 */
 	JButton loginButton = new JButton("Login");
 	/**
-	 * Constructs the insert frame.
+	 * Constructs the login frame.
 	 */
 	public LoginView(){
 		super("Login");
 		
 		setSize(500, 175);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel northPanel = new JPanel();
 		JPanel centerPanel = new JPanel();
@@ -45,32 +52,33 @@ public class LoginView extends JFrame{
 		centerPanel.add(new JLabel("Password"));
 		centerPanel.add(passwordField);
 		
-		//centerPanel.add(Box.createHorizontalStrut(150));
-		
 		southPanel.add(loginButton);
 		
 		add("North", northPanel);
 		add("Center", centerPanel);
 		add("South", southPanel);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); 
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	
 	/**
-	 * Adds a listener for the search button.
-	 * @param listener
+	 * Adds a listener for the login button.
+	 * @param listener the listener for the login button
 	 */
 	public void addLoginListener(ActionListener listener) {
 		loginButton.addActionListener(listener);
 	}
 	/**
-	 * Gets the Course Id.
-	 * @return a string containing the Course Id
+	 * Gets the student Id.
+	 * @return a string containing the student id.
 	 */
 	public String getId() {
 		return idField.getText();
 	}
 	/**
-	 * Gets the Course Name.
-	 * @return a string containing the Course Name
+	 * Gets the password.
+	 * @return a string containing the student password.
 	 */
 	public String getPassword() {
 		return passwordField.getText();
