@@ -6,14 +6,16 @@ package ServerModel;
 import java.util.ArrayList;
 
 public class CourseOffering {
+	private int dbKey;
 	private int secNum;
 	private int secCap;
 	private Course theCourse;
 	private ArrayList <Registration> offeringRegList;
 	
-	public CourseOffering (int secNum, int secCap) {
+	public CourseOffering (int secNum, int secCap, int dbKey) {
 		this.setSecNum(secNum);
 		this.setSecCap(secCap);
+		this.setDbKey(dbKey);
 		offeringRegList = new ArrayList <Registration>();
 	}
 	public int getSecNum() {
@@ -52,5 +54,11 @@ public class CourseOffering {
 	
 	public boolean isFull() {
 		return secCap <= offeringRegList.size();
+	}
+	public int getDbKey() {
+		return dbKey;
+	}
+	public void setDbKey(int dbKey) {
+		this.dbKey = dbKey;
 	}
 }

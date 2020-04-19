@@ -6,18 +6,21 @@ package ServerModel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 public class Application implements Runnable{
 	private CourseCatalogue cat;
 	private Student student;
+	SQLDBManager db;
 	PrintWriter socketOut;
 	BufferedReader socketIn;
 	
-	public Application(Student student, CourseCatalogue cat, PrintWriter socketOut, BufferedReader socketIn){
+	public Application(Student student, CourseCatalogue cat, PrintWriter socketOut, BufferedReader socketIn, SQLDBManager db){
 		this.cat = cat;
 		this.student = student;
 		this.socketIn = socketIn;
 		this.socketOut = socketOut;
+		this.db = db;
 	}
 	
 	public void menu() throws IOException, NullPointerException {
@@ -73,7 +76,7 @@ public class Application implements Runnable{
 		if(theCourse == null)
 			socketOut.println("Course was not found\0");
 		else {
-			if(student.removeRegistration(theCourse))
+			if(student.removeRegistration(theCourse, db))
 				socketOut.println("Succefully dropped Course\0");
 			else 
 				socketOut.println("Could not drop the Course\0");
@@ -101,11 +104,16 @@ public class Application implements Runnable{
 				socketOut.println("Offering is Full, Cannot Register\0");
 			} else {
 				String res = reg.completeRegistration(student, offering);
+				try {
+					db.addRegistration(reg);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				socketOut.println(res + "\0");
 			}
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		try {

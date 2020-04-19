@@ -9,13 +9,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import ServerModel.Application;
 import ServerModel.CourseCatalogue;
-import ServerModel.DBManager;
+import ServerModel.SQLDBManager;
 import ServerModel.Student;
 
 public class ServerController {
@@ -24,13 +25,15 @@ public class ServerController {
 	ExecutorService pool;
 	ArrayList<Student> studentList;
 	CourseCatalogue cat;
+	SQLDBManager db;
 	
-	public ServerController(int portNum, ArrayList<Student> studentList, CourseCatalogue cat) {
+	public ServerController(int portNum, ArrayList<Student> studentList, CourseCatalogue cat, SQLDBManager db) {
 		try {
 			serverSocket = new ServerSocket(portNum);
 			pool = Executors.newCachedThreadPool();
 			this.studentList = studentList;
 			this.cat = cat;
+			this.db = db;
 			System.out.println("Server is Running...");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -50,12 +53,12 @@ public class ServerController {
 				String pass = args[1];
 				Student theStudent = searchStudents(id);
 				Application app = null;
-				if(theStudent != null) {
-					 socketOut.println("Student found with id: " + id + "\0");
-					 app = new Application(theStudent, cat, socketOut, socketIn);
+				if(db.verifyLogin(id, pass) && theStudent != null) {
+					 socketOut.println("Succefully Logged In\0");
+					 app = new Application(theStudent, cat, socketOut, socketIn, db);
 					 pool.execute(app);
 				} else {
-					socketOut.println("Student not found with id: " + id + "\0");
+					socketOut.println("Wrong Id or Password\0");
 				}
 			} catch (NullPointerException e) {
 				
@@ -64,6 +67,8 @@ public class ServerController {
 			}catch (IOException e) {
 				e.printStackTrace();
 				pool.shutdown();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			} 
 		}
 	}
@@ -78,10 +83,19 @@ public class ServerController {
 	}
 	
 	public static void main(String[] args) {
-		DBManager db = new DBManager();
-		CourseCatalogue cat = new CourseCatalogue(db.readCoursesFromDataBase());
-		ArrayList<Student> studentList = db.loadStudents();
-		ServerController server = new ServerController(9090, studentList, cat);
-		server.communicate();
+		CourseCatalogue cat;
+		ArrayList<Student> studentList;
+		try {
+			SQLDBManager db = new SQLDBManager();
+			cat = new CourseCatalogue(db.loadCatalogueFromDB());
+			studentList = db.loadStudentsFromDB();
+			//db.loadRegistrations();
+			ServerController server = new ServerController(9090, studentList, cat, db);
+			server.communicate();
+		} catch (SQLException e) {
+			System.out.println("Database Error");
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -3,6 +3,7 @@
  */
 package ServerModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Student {
@@ -19,11 +20,16 @@ public class Student {
 		pastCourses = new ArrayList<Course>();
 	}
 	
-	public boolean removeRegistration(Course course){
+	public boolean removeRegistration(Course course, SQLDBManager db){
 		for(Registration reg : studentRegList) {
 			if(reg.getTheOffering().getTheCourse().equals(course)) {
 				reg.getTheOffering().removeRegistration(reg);
 				studentRegList.remove(reg);
+				try {
+					db.removeRegistration(reg);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				return true;
 			}	
 		}

@@ -167,7 +167,7 @@ public class Controller {
 			socketOut.println(id + "," + pass);
 			String s = readFromServer();
 			displayMessage(s);
-			if(!s.contains("not")) {
+			if(!s.contains("Wrong")) {
 				view.setVisible(true);
 			} else {
 				System.exit(1);
