@@ -45,11 +45,11 @@ public class SQLDBManager implements DBCredentials {
 		Statement stmnt =  con.createStatement();
 		ResultSet rs = stmnt.executeQuery("SELECT * FROM project.courses;");
 		courseList = new ArrayList<Course>();
-		
+
 		Course currentCourse = null;
 		while(rs.next()) {
 			CourseOffering offering = new CourseOffering(rs.getInt("Section"), rs.getInt("Capacity"), rs.getInt("CourseKey"));
-			if(currentCourse == null || 
+			if(currentCourse == null ||
 			!(currentCourse.getCourseName().equals(rs.getString("CourseName")) && currentCourse.getCourseNum() == rs.getInt("CourseId"))) {
 				currentCourse = new Course(rs.getString("CourseName"), rs.getInt("CourseId"));
 				courseList.add(currentCourse);
@@ -68,7 +68,7 @@ public class SQLDBManager implements DBCredentials {
 		Statement stmnt =  con.createStatement();
 		ResultSet rs = stmnt.executeQuery("SELECT * FROM project.students;");
 		studentList = new ArrayList<Student>();
-		
+
 		while(rs.next()) {
 			studentList.add(new Student(rs.getString("Name"), rs.getInt("Id")));
 		}
@@ -81,7 +81,7 @@ public class SQLDBManager implements DBCredentials {
 	public void loadRegistrations() throws SQLException {
 		Statement stmnt =  con.createStatement();
 		rs = stmnt.executeQuery("SELECT * FROM project.registrations;");
-		
+
 		while(rs.next()) {
 			//Finding Specific Student
 			Student theStudent = null;
