@@ -118,7 +118,7 @@ public class ServerController {
 			SQLDBManager db = new SQLDBManager();
 			cat = new CourseCatalogue(db.loadCatalogueFromDB());
 			studentList = db.loadStudentsFromDB();
-			//db.loadRegistrations();
+			db.loadRegistrations();
 			ServerController server = new ServerController(9090, studentList, cat, db);
 			server.communicate();
 		} catch (SQLException e) {

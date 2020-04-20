@@ -44,7 +44,7 @@ public class SQLDBManager implements DBCredentials {
 	public ArrayList<Course> loadCatalogueFromDB() throws SQLException{
 		Statement stmnt =  con.createStatement();
 		ResultSet rs = stmnt.executeQuery("SELECT * FROM project.courses;");
-		ArrayList<Course> courseList = new ArrayList<Course>();
+		courseList = new ArrayList<Course>();
 		
 		Course currentCourse = null;
 		while(rs.next()) {
@@ -67,7 +67,7 @@ public class SQLDBManager implements DBCredentials {
 	public ArrayList<Student> loadStudentsFromDB() throws SQLException{
 		Statement stmnt =  con.createStatement();
 		ResultSet rs = stmnt.executeQuery("SELECT * FROM project.students;");
-		ArrayList<Student> studentList = new ArrayList<Student>();
+		studentList = new ArrayList<Student>();
 		
 		while(rs.next()) {
 			studentList.add(new Student(rs.getString("Name"), rs.getInt("Id")));
@@ -76,25 +76,26 @@ public class SQLDBManager implements DBCredentials {
 	}
 	/**
 	 * Loads all the registrations from the database.
+	 * @throws SQLException
 	 */
-//	public void loadRegistrations() throws SQLException {
-//		Statement stmnt =  con.createStatement();
-//		rs = stmnt.executeQuery("SELECT * FROM project.registrations;");
-//		
-//		while(rs.next()) {
-//			//Finding Specific Student
-//			Student theStudent = null;
-//			for(Student s: studentList) {
-//				if(s.getStudentId() == rs.getInt("StudentId")) {
-//					theStudent = s;
-//					break;
-//				}
-//			}
-//			CourseOffering theOffering = offeringList.get(rs.getInt("CourseKey") - 1);
-//			Registration reg = new Registration();
-//			reg.completeRegistration(theStudent, theOffering);
-//		}
-//	}
+	public void loadRegistrations() throws SQLException {
+		Statement stmnt =  con.createStatement();
+		rs = stmnt.executeQuery("SELECT * FROM project.registrations;");
+		
+		while(rs.next()) {
+			//Finding Specific Student
+			Student theStudent = null;
+			for(Student s: studentList) {
+				if(s.getStudentId() == rs.getInt("StudentId")) {
+					theStudent = s;
+					break;
+				}
+			}
+			CourseOffering theOffering = offeringList.get(rs.getInt("CourseKey") - 1);
+			Registration reg = new Registration();
+			reg.completeRegistration(theStudent, theOffering);
+		}
+	}
 	/**
 	 * Verifies the login.
 	 * @param id the users id
