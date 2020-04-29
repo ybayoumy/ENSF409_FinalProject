@@ -1,8 +1,6 @@
 package ServerModel;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 /**
  * The main application that implements runnable in order to allow multiple 
  * users onto the application at the same time.
@@ -156,7 +154,7 @@ public class Application implements Runnable{
 		}
 	}
 	/**
-	 * Runs the application.
+	 * Runs the application through a single thread.
 	 */
 	@Override
 	public void run() {

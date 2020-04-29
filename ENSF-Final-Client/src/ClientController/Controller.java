@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
@@ -95,7 +96,7 @@ public class Controller {
 		});
 	}
 	/**
-	 * Reisters a student into the course they choose.
+	 * Registers a student into the course they choose.
 	 * @param view the register view 
 	 * @throws IOException
 	 */
@@ -228,7 +229,7 @@ public class Controller {
 			socketOut.println(id + "," + pass);
 			String s = readFromServer();
 			displayMessage(s);
-			if(!s.contains("Wrong")) {
+			if(!s.contains("Wrong")) { // Checks for correct password from the server.
 				view.setVisible(true);
 			} else {
 				System.exit(1);

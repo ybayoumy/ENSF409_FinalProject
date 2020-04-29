@@ -1,5 +1,5 @@
 package ServerModel;
-import java.util.ArrayList;
+import java.util.*;
 /**
  * A class representing a course.
  * @author Yassin Bayoumy & Thomas Kahessay

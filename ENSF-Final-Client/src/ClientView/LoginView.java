@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 /**
  * The login window for the user to enter their credentials in order to 
@@ -24,9 +25,9 @@ public class LoginView extends JFrame{
 	 */
 	JTextField idField = new JTextField(5);
 	/**
-	 * The text field for the user to enter the password.
+	 * The password field for the user to enter the password.
 	 */
-	JTextField passwordField = new JTextField(4);
+	JPasswordField passwordField = new JPasswordField(4);
 	/**
 	 * The login button.
 	 */
@@ -81,6 +82,6 @@ public class LoginView extends JFrame{
 	 * @return a string containing the student password.
 	 */
 	public String getPassword() {
-		return passwordField.getText();
+		return new String(passwordField.getPassword());
 	}
 }

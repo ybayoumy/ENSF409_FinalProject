@@ -1,5 +1,5 @@
 package ServerModel;
-import java.util.ArrayList;
+import java.util.*;
 /**
  * The class for a course offering.
  * @author Yassin Bayoumy & Thomas Kahessay

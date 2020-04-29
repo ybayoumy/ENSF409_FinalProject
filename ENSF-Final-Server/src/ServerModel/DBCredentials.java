@@ -11,7 +11,7 @@ public interface DBCredentials {
 	/**
 	 * The location of the database.
 	 */
-	final String DB_URL = "jdbc:mysql://localhost:3306/project?serverTimezone=MST";
+	final String DB_URL = "jdbc:mysql://localhost:3306/______?serverTimezone=MST";
 	/**
 	 * Username for the database.
 	 */
