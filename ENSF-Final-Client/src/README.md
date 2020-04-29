@@ -48,9 +48,9 @@ If all goes well their should be a GUI to login which can be logged in using
 
 After they have logged in, the functions of the program allow the user to search for a course, enroll in a course, drop a course, view course catalogue, and view student courses. (None of the students come with registrations in the database to begin with).
 
-##Bonus Features
+## Bonus Features
 The bonus feature implemented into our program is the login component.
 
-##Info
+## Info
 * Thomas Kahessay 		thomas.kahessay@ucalgary.ca 
 * Yassin Bayoumy			yassin.bayoumy@ucalgary.ca
